@@ -1,0 +1,7 @@
+{
+  "name": "Vantage Studio - Elite App Store Asset Generator",
+  "description": "An elite production suite for high-conversion app store assets featuring hardware-accurate 3D framing and neural marketing copy generation.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
