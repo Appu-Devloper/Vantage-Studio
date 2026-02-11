@@ -20,8 +20,7 @@ import {
   Heart,
   Info,
   X,
-  Lock,
-  ExternalLink
+  Lock
 } from 'lucide-react';
 import { DeviceType, TemplateStyle, AppSettings, ScreenshotData } from './types';
 import { DEVICE_CONFIGS, INITIAL_SCREENSHOTS, COLOR_PRESETS } from './constants';
@@ -392,7 +391,7 @@ const App: React.FC = () => {
           )}
         </div>
 
-        {/* Sidebar Footer - Optimized for Branding */}
+        {/* Sidebar Footer - Appu Branding */}
         <footer className="p-10 pt-6 border-t border-white/5 bg-black/40 space-y-6">
           <div className="flex flex-col gap-4">
              <div className="flex items-center justify-between">
