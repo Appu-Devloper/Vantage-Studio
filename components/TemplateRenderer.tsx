@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TemplateStyle, ScreenshotData, AppSettings } from '../types';
+import { TemplateStyle, ScreenshotData, AppSettings, DeviceType } from '../types';
 import { DeviceFrame } from './DeviceFrame';
 
 interface TemplateRendererProps {
@@ -13,30 +13,34 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
   const { template, primaryColor, secondaryColor, textColor, deviceType, gradientAngle, deviceFinish } = settings;
   const { title, subtitle, imageUrl } = data;
 
+  const baseWidth = 1242;
+  const baseHeight = 2208;
+
   const bgStyle = {
     background: `linear-gradient(${gradientAngle}deg, ${primaryColor}, ${secondaryColor})`,
     color: textColor,
   };
 
+  // High-Performance Drop Shadow Engine for professional legibility
   const textShadowStyle = {
-    textShadow: textColor === '#FFFFFF' ? '0 4px 12px rgba(0,0,0,0.3)' : 'none'
+    textShadow: textColor === '#FFFFFF' 
+      ? `0 20px 80px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.6), 0 0 120px rgba(0,0,0,0.4)` 
+      : 'none'
   };
 
   const renderContent = () => {
     switch (template) {
       case TemplateStyle.CLASSIC:
         return (
-          <div className="h-full w-full flex flex-col items-center p-12 text-center relative overflow-hidden" style={bgStyle}>
-            <div className="absolute top-0 inset-x-0 h-[45%] bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
-            
-            <div className="z-20 mt-8 mb-12">
-              <h2 className="text-[52px] leading-[1] font-black font-outfit mb-5 tracking-tighter drop-shadow-2xl" style={textShadowStyle}>{title}</h2>
-              <p className="text-[22px] opacity-80 max-w-[360px] mx-auto font-medium leading-tight">{subtitle}</p>
+          <div className="h-full w-full flex flex-col items-center p-24 text-center relative overflow-hidden" style={bgStyle}>
+            <div className="absolute top-0 inset-x-0 h-[45%] bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10"></div>
+            <div className="z-20 mt-20 mb-24 space-y-12">
+              <h2 className="text-[180px] leading-[0.8] font-black font-outfit tracking-tighter uppercase italic" style={textShadowStyle}>{title}</h2>
+              <p className="text-[78px] font-black opacity-100 max-w-[1000px] mx-auto leading-[1.0] tracking-tight text-white" style={textShadowStyle}>{subtitle}</p>
             </div>
-            
-            <div className="flex-1 w-full max-w-[82%] relative z-10 flex items-end">
-               <div className="absolute bottom-0 inset-x-0 h-10 bg-black/50 blur-[50px] rounded-full scale-75 translate-y-8"></div>
-               <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full transform transition-transform duration-1000">
+            <div className="flex-1 w-full max-w-[85%] relative z-10 flex items-end justify-center">
+               <div className="absolute bottom-0 inset-x-0 h-32 bg-black/70 blur-[150px] rounded-full scale-75 translate-y-12"></div>
+               <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full">
                   <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
                </DeviceFrame>
             </div>
@@ -45,42 +49,53 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
 
       case TemplateStyle.BENTO:
         return (
-          <div className="h-full w-full flex flex-col p-8 overflow-hidden relative justify-between" style={bgStyle}>
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]"></div>
+          <div className="h-full w-full flex flex-col p-10 overflow-hidden relative" style={bgStyle}>
+            <div className="absolute inset-0 bg-black/20 z-0"></div>
             
-            <div className="flex-1 w-full flex items-center justify-center p-6 relative">
-                <div className="w-[85%] relative group">
-                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-2xl">
-                        <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
-                    </DeviceFrame>
-                    <div className="absolute -inset-8 bg-white/5 blur-3xl rounded-[80px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex-1 flex flex-col gap-8 relative z-10">
+              {/* Massive Device Zone - Calibrated for high-fidelity hardware focus */}
+              <div className="flex-[1.1] relative rounded-[110px] bg-black/50 border border-white/10 overflow-hidden flex items-center justify-center p-12 shadow-2xl">
+                <div className="w-[72%] relative">
+                  <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-[0_150px_300px_rgba(0,0,0,0.9)]">
+                    <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
+                  </DeviceFrame>
                 </div>
-            </div>
+              </div>
 
-            <div className="backdrop-blur-3xl rounded-[48px] p-12 border border-white/10 shadow-2xl relative z-10 mb-2 overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[48px]"></div>
-                <h2 className="text-[38px] font-black font-outfit leading-[1.1] tracking-tight mb-5" style={textShadowStyle}>{title}</h2>
-                <p className="text-[20px] font-semibold opacity-70 leading-snug">{subtitle}</p>
+              {/* Massive Glass Information Zone - Engineered for 4K visibility */}
+              <div className="flex-[0.9] relative">
+                <div className="absolute inset-0 bg-black/90 backdrop-blur-[180px] rounded-[110px] border border-white/20 shadow-[0_40px_100px_rgba(0,0,0,0.5)]"></div>
+                
+                <div className="relative h-full p-24 flex flex-col justify-center items-center text-center z-20">
+                  <div className="w-48 h-2 bg-white/40 rounded-full mb-16"></div>
+                  <h2 className="text-[160px] font-black font-outfit leading-[0.8] tracking-tighter mb-12 text-white drop-shadow-2xl uppercase italic">
+                    {title}
+                  </h2>
+                  <p className="text-[82px] font-black text-white/90 leading-[1.0] tracking-tight max-w-[95%] mx-auto drop-shadow-lg">
+                    {subtitle}
+                  </p>
+                  <div className="mt-16 px-16 py-6 bg-white text-black text-[42px] font-black tracking-[0.2em] rounded-3xl uppercase shadow-2xl">
+                     PREMIUM MODULE
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );
 
       case TemplateStyle.FLOATING_DUO:
         return (
-          <div className="h-full w-full flex flex-col items-center justify-center p-12 overflow-hidden" style={bgStyle}>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-            
-            <div className="text-center mb-16 z-20">
-               <h2 className="text-[44px] font-black font-outfit leading-none mb-4 tracking-tighter uppercase" style={textShadowStyle}>{title}</h2>
-               <div className="h-2 w-20 bg-white/30 mx-auto rounded-full mb-8"></div>
-               <p className="text-[21px] font-bold opacity-80 max-w-[320px] leading-tight mx-auto">{subtitle}</p>
+          <div className="h-full w-full flex flex-col items-center justify-center p-24 overflow-hidden" style={bgStyle}>
+            <div className="absolute top-0 inset-x-0 h-[50%] bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10"></div>
+            <div className="text-center mb-24 z-20 space-y-12">
+               <h2 className="text-[170px] font-black font-outfit leading-none tracking-tighter uppercase italic" style={textShadowStyle}>{title}</h2>
+               <p className="text-[72px] font-black opacity-100 max-w-[950px] leading-tight mx-auto tracking-tight" style={textShadowStyle}>{subtitle}</p>
             </div>
-            
-            <div className="relative w-full h-[58%] flex justify-center items-center scale-110">
-                <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-[68%] absolute -translate-x-20 translate-y-20 rotate-[-12deg] z-10 opacity-30 scale-90">
+            <div className="relative w-full h-[55%] flex justify-center items-center scale-[1.3] translate-y-24">
+                <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-[70%] absolute -translate-x-56 translate-y-40 rotate-[-12deg] z-10 opacity-30 blur-[6px]">
                   <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
                 </DeviceFrame>
-                <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-[68%] absolute translate-x-8 rotate-[10deg] z-20 shadow-[0_50px_120px_rgba(0,0,0,0.7)]">
+                <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-[70%] absolute translate-x-28 rotate-[10deg] z-20 shadow-[0_150px_300px_rgba(0,0,0,1)]">
                   <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
                 </DeviceFrame>
             </div>
@@ -89,20 +104,19 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
 
       case TemplateStyle.ISOMETRIC:
         return (
-          <div className="h-full w-full flex flex-col p-12 overflow-hidden" style={bgStyle}>
-            <div className="absolute -top-[20%] -left-[20%] w-[100%] h-[100%] bg-white/10 blur-[180px] rounded-full"></div>
-            
-            <div className="mt-8 mb-16 relative z-10">
-               <div className="w-12 h-12 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl flex items-center justify-center mb-8 shadow-2xl">
-                  <div className="w-4 h-4 rounded-full bg-white shadow-[0_0_15px_white]"></div>
-               </div>
-               <h2 className="text-[58px] font-black font-outfit leading-[0.85] tracking-tighter italic mb-8 uppercase" style={textShadowStyle}>{title}</h2>
-               <p className="text-[24px] font-bold opacity-75 leading-tight tracking-tight">{subtitle}</p>
+          <div className="h-full w-full flex flex-col p-24 overflow-hidden relative" style={bgStyle}>
+            <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[70%] bg-[radial-gradient(circle_at_top_left,rgba(0,0,0,0.8)_0%,transparent_75%)] pointer-events-none z-10"></div>
+            <div className="mt-20 mb-24 relative z-20 space-y-16">
+               <h2 className="text-[195px] font-black font-outfit leading-[0.8] tracking-tighter italic uppercase" style={textShadowStyle}>{title}</h2>
+               <p className="text-[88px] font-black opacity-100 leading-tight tracking-tight max-w-[1200px]" style={textShadowStyle}>{subtitle}</p>
             </div>
-            
-            <div className="flex-1 relative perspective-[3500px] flex justify-center items-center scale-[1.15]">
-                <div className="w-[82%] transform rotate-x-[52deg] rotate-z-[-32deg] translate-y-12 transition-transform duration-1000 group-hover:scale-105">
-                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-[80px_80px_160px_rgba(0,0,0,0.8)]">
+            <div className="flex-1 relative perspective-[5000px] flex justify-center items-center scale-[1.4] translate-y-36 translate-x-16">
+                <div 
+                  className="absolute w-[80%] h-[120%] bg-black/60 blur-[180px] rounded-[180px]" 
+                  style={{ transform: 'rotateX(60deg) rotateZ(-35deg) translateZ(-100px) translateY(50px) skewX(10deg)' }}
+                ></div>
+                <div className="w-[85%] transform-gpu" style={{ transform: 'rotateX(55deg) rotateZ(-35deg) translateZ(50px)' }}>
+                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-[80px_80px_160px_rgba(0,0,0,0.7)]">
                         <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
                     </DeviceFrame>
                 </div>
@@ -113,66 +127,36 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
       case TemplateStyle.EDITORIAL:
         return (
           <div className="h-full w-full flex flex-col bg-white p-0 overflow-hidden text-slate-900">
-             <div className="h-[50%] w-full relative group" style={bgStyle}>
-                <div className="absolute inset-0 bg-black/10"></div>
-                <div className="absolute bottom-[-22%] left-12 w-[72%] z-20">
-                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full border-white border-[10px] shadow-[0_50px_100px_rgba(0,0,0,0.3)]">
+             <div className="h-[58%] w-full relative" style={bgStyle}>
+                <div className="absolute bottom-[-22%] left-16 w-[70%] z-20">
+                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full border-white border-[35px] shadow-[0_120px_240px_rgba(0,0,0,0.5)]">
                         <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
                     </DeviceFrame>
                 </div>
              </div>
-             <div className="flex-1 p-16 flex flex-col justify-end items-start text-left bg-white">
-                <h2 className="text-[64px] font-black font-outfit leading-[0.8] tracking-tighter mb-8 text-slate-900 uppercase italic">{title}</h2>
-                <div className="w-24 h-2.5 bg-slate-900 mb-8 rounded-full"></div>
-                <p className="text-[26px] font-bold text-slate-500 leading-tight max-w-[320px]">{subtitle}</p>
+             <div className="flex-1 p-24 flex flex-col justify-end items-start text-left bg-white">
+                <h2 className="text-[215px] font-black font-outfit leading-[0.7] tracking-tighter mb-16 text-slate-900 uppercase italic">{title}</h2>
+                <div className="w-80 h-20 bg-slate-900 mb-16 rounded-full"></div>
+                <p className="text-[92px] font-black text-slate-500 leading-tight max-w-[1000px] tracking-tighter">{subtitle}</p>
              </div>
           </div>
         );
 
       case TemplateStyle.MINIMAL_LUXE:
         return (
-          <div className="h-full w-full flex flex-col items-center justify-center p-16" style={bgStyle}>
-             <div className="w-full h-full border-[3px] border-white/10 rounded-[64px] p-12 flex flex-col items-center justify-between shadow-inner relative">
-                <div className="absolute inset-x-20 top-0 h-1 bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
-                
-                <div className="text-center w-full mt-8 z-10">
-                    <h2 className="text-[44px] font-black font-outfit leading-tight mb-5 tracking-tight uppercase" style={textShadowStyle}>{title}</h2>
-                    <p className="text-[19px] font-bold opacity-60 tracking-[0.25em] uppercase">{subtitle}</p>
+          <div className="h-full w-full flex flex-col items-center justify-center p-24" style={bgStyle}>
+             <div className="w-full h-full border-[22px] border-white/20 rounded-[240px] p-24 flex flex-col items-center justify-between shadow-inner relative">
+                <div className="absolute top-0 inset-x-0 h-[45%] bg-gradient-to-b from-black/50 to-transparent pointer-events-none rounded-[inherit]"></div>
+                <div className="text-center w-full mt-16 space-y-14 z-10">
+                    <h2 className="text-[185px] font-black font-outfit leading-tight tracking-tighter uppercase italic" style={textShadowStyle}>{title}</h2>
+                    <p className="text-[80px] font-black opacity-80 tracking-[0.2em] uppercase" style={textShadowStyle}>{subtitle}</p>
                 </div>
-                
-                <div className="relative w-[85%] transition-transform duration-1000 group-hover:scale-105">
-                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-[0_60px_120px_rgba(0,0,0,0.5)]">
+                <div className="relative w-[80%] mb-12">
+                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-[0_200px_400px_rgba(0,0,0,0.8)]">
                         <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
                     </DeviceFrame>
                 </div>
-
-                <div className="w-16 h-2 bg-white/20 rounded-full mb-6"></div>
-             </div>
-          </div>
-        );
-
-      case TemplateStyle.DYNAMIC_BREAK:
-        return (
-          <div className="h-full w-full flex flex-col items-center p-14 relative overflow-hidden" style={bgStyle}>
-             <div className="absolute top-0 left-0 w-full h-[58%] bg-black/15 backdrop-blur-3xl z-0 rounded-b-[120px] border-b border-white/5"></div>
-             
-             <div className="z-10 mt-8 text-center mb-12">
-                <h2 className="text-[56px] font-black font-outfit leading-[0.95] mb-8 tracking-tighter drop-shadow-2xl uppercase" style={textShadowStyle}>{title}</h2>
-                <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/10 rounded-full border border-white/20 shadow-xl">
-                   <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-                   <span className="text-[15px] font-black tracking-widest uppercase opacity-90" style={{ color: textColor }}>{subtitle}</span>
-                </div>
-             </div>
-             
-             <div className="flex-1 w-full flex items-center justify-center relative scale-110 translate-y-16">
-                <div className="relative w-[85%] z-20 group transition-all duration-700 hover:scale-110">
-                    <DeviceFrame deviceType={deviceType} finish={deviceFinish} textColor={textColor} className="w-full shadow-[0_120px_240px_rgba(0,0,0,0.8)]">
-                        <img src={imageUrl} alt="App screen" className="w-full h-full object-cover" />
-                    </DeviceFrame>
-                    <div className="absolute -top-14 -right-14 w-32 h-32 bg-white text-slate-900 rounded-full flex items-center justify-center text-6xl shadow-2xl z-30 font-black border-[5px] border-slate-900 animate-bounce">
-                       ★
-                    </div>
-                </div>
+                <div className="w-48 h-12 bg-white/25 rounded-full mb-8"></div>
              </div>
           </div>
         );
@@ -184,12 +168,13 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
 
   return (
     <div 
-      className="screenshot-canvas shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] relative overflow-hidden rounded-[56px] transition-all duration-500 group" 
+      className="screenshot-canvas relative overflow-hidden bg-black" 
       style={{ 
-        width: 1242 / 3,
-        height: 2208 / 3,
+        width: baseWidth,
+        height: baseHeight,
         transform: `scale(${scale})`,
-        transformOrigin: 'top left'
+        transformOrigin: 'top left',
+        flexShrink: 0
       }}
     >
       <div className="absolute inset-0 w-full h-full">

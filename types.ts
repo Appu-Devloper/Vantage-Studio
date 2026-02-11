@@ -21,8 +21,7 @@ export enum TemplateStyle {
   FLOATING_DUO = 'Floating Duo',
   ISOMETRIC = 'Isometric 3D',
   EDITORIAL = 'Editorial Bold',
-  MINIMAL_LUXE = 'Minimal Luxe',
-  DYNAMIC_BREAK = 'Dynamic Breakout'
+  MINIMAL_LUXE = 'Minimal Luxe'
 }
 
 export interface ScreenshotData {
