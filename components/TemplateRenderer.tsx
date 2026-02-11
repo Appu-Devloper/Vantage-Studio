@@ -18,6 +18,10 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
     color: textColor,
   };
 
+  const textShadowStyle = {
+    textShadow: textColor === '#FFFFFF' ? '0 4px 12px rgba(0,0,0,0.2)' : 'none'
+  };
+
   const renderContent = () => {
     switch (template) {
       case TemplateStyle.CLASSIC:
@@ -27,7 +31,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
             <div className="absolute top-0 inset-x-0 h-[40%] bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
             
             <div className="z-20 mt-8 mb-10">
-              <h2 className="text-[48px] leading-[1.05] font-black font-outfit mb-4 tracking-tighter drop-shadow-2xl">{title}</h2>
+              <h2 className="text-[48px] leading-[1.05] font-black font-outfit mb-4 tracking-tighter drop-shadow-2xl" style={textShadowStyle}>{title}</h2>
               <p className="text-[21px] opacity-80 max-w-[340px] mx-auto font-medium leading-relaxed">{subtitle}</p>
             </div>
             
@@ -54,9 +58,9 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
                 </div>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-3xl rounded-[40px] p-10 border border-white/10 shadow-2xl relative z-10 mb-2">
+            <div className="backdrop-blur-3xl rounded-[40px] p-10 border border-white/10 shadow-2xl relative z-10 mb-2 overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-[40px]"></div>
-                <h2 className="text-[36px] font-black font-outfit leading-[1.1] tracking-tight mb-4">{title}</h2>
+                <h2 className="text-[36px] font-black font-outfit leading-[1.1] tracking-tight mb-4" style={textShadowStyle}>{title}</h2>
                 <p className="text-[18px] font-semibold opacity-70 leading-relaxed">{subtitle}</p>
             </div>
           </div>
@@ -68,7 +72,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             
             <div className="text-center mb-16 z-20">
-               <h2 className="text-[42px] font-black font-outfit leading-none mb-4 tracking-tighter uppercase">{title}</h2>
+               <h2 className="text-[42px] font-black font-outfit leading-none mb-4 tracking-tighter uppercase" style={textShadowStyle}>{title}</h2>
                <div className="h-1.5 w-16 bg-white/30 mx-auto rounded-full mb-6"></div>
                <p className="text-[19px] font-bold opacity-80 max-w-[300px] leading-tight">{subtitle}</p>
             </div>
@@ -93,7 +97,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
                <div className="w-10 h-10 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center mb-6 shadow-xl">
                   <div className="w-4 h-4 rounded-full bg-white shadow-[0_0_10px_white]"></div>
                </div>
-               <h2 className="text-[52px] font-black font-outfit leading-[0.9] tracking-tighter italic mb-6 uppercase">{title}</h2>
+               <h2 className="text-[52px] font-black font-outfit leading-[0.9] tracking-tighter italic mb-6 uppercase" style={textShadowStyle}>{title}</h2>
                <p className="text-[21px] font-bold opacity-70 leading-snug tracking-tight">{subtitle}</p>
             </div>
             
@@ -134,7 +138,7 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
                 <div className="absolute inset-x-12 top-0 h-1 bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
                 
                 <div className="text-center w-full mt-6 z-10">
-                    <h2 className="text-[40px] font-black font-outfit leading-tight mb-4 tracking-tight uppercase">{title}</h2>
+                    <h2 className="text-[40px] font-black font-outfit leading-tight mb-4 tracking-tight uppercase" style={textShadowStyle}>{title}</h2>
                     <p className="text-[17px] font-bold opacity-60 tracking-[0.2em] uppercase">{subtitle}</p>
                 </div>
                 
@@ -156,10 +160,10 @@ export const TemplateRenderer: React.FC<TemplateRendererProps> = ({ settings, da
              <div className="absolute top-0 left-0 w-full h-[55%] bg-black/10 backdrop-blur-3xl z-0 rounded-b-[100px] border-b border-white/5"></div>
              
              <div className="z-10 mt-8 text-center mb-8">
-                <h2 className="text-[50px] font-black font-outfit leading-[1] mb-6 tracking-tighter drop-shadow-2xl uppercase">{title}</h2>
+                <h2 className="text-[50px] font-black font-outfit leading-[1] mb-6 tracking-tighter drop-shadow-2xl uppercase" style={textShadowStyle}>{title}</h2>
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full border border-white/20">
                    <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                   <span className="text-[14px] font-black tracking-widest uppercase opacity-80">{subtitle}</span>
+                   <span className="text-[14px] font-black tracking-widest uppercase opacity-80" style={{ color: textColor }}>{subtitle}</span>
                 </div>
              </div>
              

@@ -4,34 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vantage Studio - Pro App Screenshot Engine</title>
+    <title>Vantage Studio | Professional App Store Asset Suite</title>
+    
+    <!-- SEO / Metadata -->
+    <meta name="description" content="Generate high-fidelity, hardware-accurate app store screenshots and marketing copy using AI. Designed for elite mobile developers.">
+    <meta property="og:title" content="Vantage Studio - Elite App Asset Engine">
+    <meta property="og:description" content="Professional-grade screenshot generation with hardware-accurate framing and neural marketing copy.">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon Fix (Base64 SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20,20 L50,85 L80,20' fill='none' stroke='black' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              outfit: ['Outfit', 'sans-serif'],
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            font-family: 'Inter', sans-serif;
             background-color: #0a0a0b;
+            color: #f1f5f9;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .font-outfit {
-            font-family: 'Outfit', sans-serif;
-        }
+        
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #000;
         }
         ::-webkit-scrollbar-thumb {
-            background: #222;
-            border-radius: 4px;
+            background: #1e1e21;
+            border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #333;
+            background: #2d2d30;
+        }
+        
+        .screenshot-canvas {
+            box-shadow: none !important;
+            image-rendering: -webkit-optimize-contrast;
+        }
+        
+        /* Smooth transitions for scale */
+        .viewport-container {
+            perspective: 2000px;
         }
     </style>
+
 <script type="importmap">
 {
   "imports": {

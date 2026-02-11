@@ -16,7 +16,7 @@ export const DeviceFrame: React.FC<DeviceFrameProps> = ({
   children, 
   className = "",
   showGloss = true,
-  finish = 'Space Black'
+  finish = 'Titanium'
 }) => {
   const config = DEVICE_CONFIGS[deviceType];
   const aspectRatio = config.width / config.height;
@@ -24,115 +24,156 @@ export const DeviceFrame: React.FC<DeviceFrameProps> = ({
   const isIphone = deviceType.toLowerCase().includes('iphone');
   const isTablet = deviceType.toLowerCase().includes('ipad');
 
-  // Material Palette - High Precision Colors
+  // Advanced Geometry Calculations
+  const outerRadius = config.cornerRadius / 10;
+  const frameWidth = 4.5;  // Machined titanium thickness
+  const bezelWidth = 3.2;   // Pro-grade black screen border
+  
+  const midRadius = outerRadius - frameWidth;
+  const screenRadius = midRadius - bezelWidth;
+
   const finishStyles = {
     'Titanium': { 
-      frame: 'linear-gradient(180deg, #b8b8b8 0%, #8c8c8c 50%, #707070 100%)',
-      bezel: '#0a0a0a', 
-      edge: '#ffffff20',
-      shadow: 'rgba(0,0,0,0.4)',
-      btn: '#888'
+      frame: 'linear-gradient(180deg, #9d9d9d 0%, #636363 20%, #7d7d7d 50%, #4a4a4a 80%, #6a6a6a 100%)',
+      chamfer: 'rgba(255,255,255,0.4)', // The polished metal "lip"
+      bezel: '#020202', 
+      btn: '#757575',
+      innerGlow: 'rgba(255,255,255,0.12)'
     },
     'Space Black': { 
-      frame: 'linear-gradient(180deg, #2c2c2c 0%, #151515 50%, #000 100%)',
-      bezel: '#020202', 
-      edge: '#ffffff10',
-      shadow: 'rgba(0,0,0,0.6)',
-      btn: '#333'
+      frame: 'linear-gradient(180deg, #222 0%, #080808 20%, #1a1a1a 50%, #000 80%, #111 100%)',
+      chamfer: 'rgba(255,255,255,0.15)',
+      bezel: '#010101', 
+      btn: '#1a1a1a',
+      innerGlow: 'rgba(255,255,255,0.04)'
     },
     'Silver': { 
-      frame: 'linear-gradient(180deg, #f8f8f8 0%, #d1d1d1 50%, #bebebe 100%)',
-      bezel: '#0d0d0d', 
-      edge: '#ffffff40',
-      shadow: 'rgba(0,0,0,0.3)',
-      btn: '#ddd'
+      frame: 'linear-gradient(180deg, #ffffff 0%, #dcdcdc 20%, #f0f0f0 50%, #b8b8b8 80%, #fdfdfd 100%)',
+      chamfer: 'rgba(255,255,255,0.8)',
+      bezel: '#080808', 
+      btn: '#e5e5e5',
+      innerGlow: 'rgba(255,255,255,0.4)'
     }
   }[finish];
 
   return (
     <div 
-      className={`relative mx-auto transition-all duration-700 ${className}`}
+      className={`relative mx-auto transition-all duration-700 select-none ${className}`}
       style={{
         aspectRatio: `${aspectRatio}`,
-        padding: '2px', // Thin edge highlight
-        background: finishStyles.edge,
-        borderRadius: `${config.cornerRadius / 10}px`,
-        boxShadow: `0 30px 60px -12px ${finishStyles.shadow}, 0 18px 36px -18px rgba(0,0,0,0.5)`,
+        padding: `${frameWidth}px`,
+        background: finishStyles.frame,
+        borderRadius: `${outerRadius}px`,
+        boxShadow: `
+          0 0 0 1px rgba(0,0,0,0.5),
+          inset 0 1px 1px ${finishStyles.chamfer},
+          inset 0 -0.5px 0.5px rgba(0,0,0,0.5),
+          0 50px 100px -30px rgba(0,0,0,0.8),
+          0 30px 60px -40px rgba(0,0,0,0.6)
+        `,
       }}
     >
-      {/* Outer Hardware Frame */}
+      {/* CNC Internal Housing & Screen Bezel */}
       <div 
-        className="w-full h-full relative p-[2px]"
+        className="w-full h-full relative"
         style={{
-          background: finishStyles.frame,
-          borderRadius: `${(config.cornerRadius / 10) - 2}px`,
+          padding: `${bezelWidth}px`,
+          background: '#000',
+          borderRadius: `${midRadius}px`,
+          boxShadow: `
+            inset 0 0 1px 1.5px rgba(255,255,255,0.05),
+            0 0 0 1px rgba(0,0,0,1)
+          `
         }}
       >
-        {/* Antenna Bands (Top/Bottom) */}
+        {/* Antenna Breaks (Industrial details) */}
         {!isTablet && (
-          <>
-            <div className="absolute top-[8%] left-0 w-full h-[1px] bg-black/10 z-10"></div>
-            <div className="absolute bottom-[8%] left-0 w-full h-[1px] bg-black/10 z-10"></div>
-          </>
-        )}
-
-        {/* Physical Buttons - Precision Mode */}
-        {!isTablet && (
-          <div className="absolute inset-0 pointer-events-none z-0">
-            {/* Action Button */}
-            <div className="absolute left-[-4px] top-[14%] w-[3px] h-[3%] bg-inherit rounded-l-sm shadow-sm" style={{ background: finishStyles.btn }}></div>
-            {/* Volume Up */}
-            <div className="absolute left-[-4px] top-[20%] w-[3px] h-[6%] bg-inherit rounded-l-sm shadow-sm" style={{ background: finishStyles.btn }}></div>
-            {/* Volume Down */}
-            <div className="absolute left-[-4px] top-[27%] w-[3px] h-[6%] bg-inherit rounded-l-sm shadow-sm" style={{ background: finishStyles.btn }}></div>
-            {/* Power Button */}
-            <div className="absolute right-[-4px] top-[23%] w-[3px] h-[10%] bg-inherit rounded-r-sm shadow-sm" style={{ background: finishStyles.btn }}></div>
+          <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden rounded-[inherit]">
+            <div className="absolute top-[10%] left-[-10%] w-[120%] h-[1.5px] bg-black/30 mix-blend-multiply opacity-40"></div>
+            <div className="absolute bottom-[10%] left-[-10%] w-[120%] h-[1.5px] bg-black/30 mix-blend-multiply opacity-40"></div>
           </div>
         )}
 
-        {/* Display Glass / Inner Bezel Container */}
+        {/* Machined Aluminum/Titanium Buttons */}
+        {!isTablet && (
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Action Button / Mute Switch */}
+            <div 
+              className="absolute left-[-9px] top-[14.5%] w-[4.5px] h-[3%] rounded-l-sm border-y border-black/30 shadow-inner" 
+              style={{ background: finishStyles.btn, borderLeft: `1px solid ${finishStyles.chamfer}` }}
+            ></div>
+            {/* Volume Up */}
+            <div 
+              className="absolute left-[-9px] top-[21.2%] w-[4.5px] h-[6.8%] rounded-l-sm border-y border-black/30 shadow-inner" 
+              style={{ background: finishStyles.btn, borderLeft: `1px solid ${finishStyles.chamfer}` }}
+            ></div>
+            {/* Volume Down */}
+            <div 
+              className="absolute left-[-9px] top-[29.2%] w-[4.5px] h-[6.8%] rounded-l-sm border-y border-black/30 shadow-inner" 
+              style={{ background: finishStyles.btn, borderLeft: `1px solid ${finishStyles.chamfer}` }}
+            ></div>
+            {/* Power / Side Button */}
+            <div 
+              className="absolute right-[-9px] top-[24%] w-[4.5px] h-[11%] rounded-r-sm border-y border-black/30 shadow-inner" 
+              style={{ background: finishStyles.btn, borderRight: `1px solid ${finishStyles.chamfer}` }}
+            ></div>
+          </div>
+        )}
+
+        {/* The Active Display Panel (OLED Panel) */}
         <div 
-          className="w-full h-full relative overflow-hidden flex items-center justify-center p-[8px]"
+          className="w-full h-full relative overflow-hidden bg-black"
           style={{
-            backgroundColor: finishStyles.bezel,
-            borderRadius: `${(config.cornerRadius / 10) - 4}px`,
-            boxShadow: 'inset 0 0 1px 1px rgba(255,255,255,0.05)'
+            borderRadius: `${screenRadius}px`,
           }}
         >
-          {/* Inner Screen - Conforming to Bezel Curve */}
-          <div 
-            className="w-full h-full relative overflow-hidden bg-black flex"
-            style={{
-              borderRadius: `${(config.cornerRadius / 10) - 12}px`,
-            }}
-          >
-            {/* Dynamic Island / Hardware Sensors */}
-            {isIphone && (deviceType.includes('15') || deviceType.includes('16')) && (
-              <div className="absolute top-[2.5%] left-1/2 -translate-x-1/2 w-[26%] h-[3.4%] bg-black rounded-full z-50 flex items-center justify-end px-2 border-[0.5px] border-white/5 shadow-inner">
-                 <div className="w-[12px] h-[12px] rounded-full bg-[#080808] relative">
-                    <div className="absolute inset-[3px] rounded-full bg-indigo-500/10 blur-[1px]"></div>
-                 </div>
-              </div>
-            )}
-
-            {/* App Content */}
-            <div className="w-full h-full relative z-10">
-              {children}
+          {/* Dynamic Island Assembly (Layered for Depth) */}
+          {isIphone && (deviceType.includes('15') || deviceType.includes('16')) && (
+            <div 
+              className="absolute top-[2.2%] left-1/2 -translate-x-1/2 w-[27%] h-[3%] bg-[#080808] rounded-full z-50 flex items-center justify-end px-3 shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] border border-white/5"
+            >
+               <div className="w-[10px] h-[10px] rounded-full bg-[#050505] relative border border-white/10">
+                  <div className="absolute inset-[3px] rounded-full bg-indigo-500/10 blur-[1px]"></div>
+                  <div className="absolute inset-[2px] border border-white/5 rounded-full"></div>
+               </div>
             </div>
+          )}
 
-            {/* OLED Deep Black Vignette */}
-            <div className="absolute inset-0 pointer-events-none z-20 shadow-[inset_0_0_20px_rgba(0,0,0,0.6)]"></div>
-
-            {/* Realistic Light Refractions */}
-            {showGloss && (
-              <div className="absolute inset-0 pointer-events-none z-30 opacity-40 mix-blend-screen">
-                <div className="absolute top-0 left-[-20%] w-[100%] h-[30%] bg-gradient-to-br from-white/20 to-transparent rotate-[-12deg] blur-sm"></div>
-                <div className="absolute bottom-0 right-[-10%] w-[60%] h-[20%] bg-gradient-to-tl from-white/10 to-transparent rotate-[10deg] blur-sm"></div>
-              </div>
-            )}
+          {/* User Screen Content */}
+          <div className="w-full h-full relative z-10 bg-black">
+            {children}
           </div>
+
+          {/* Deep OLED Black Vignette */}
+          <div className="absolute inset-0 pointer-events-none z-20 shadow-[inset_0_0_30px_rgba(0,0,0,0.9)]"></div>
+
+          {/* Luxury Reflection Overlay (The "Glass" feeling) */}
+          {showGloss && (
+            <div className="absolute inset-0 pointer-events-none z-30 opacity-40 mix-blend-screen">
+              {/* Primary Studio Softbox Reflection */}
+              <div className="absolute top-[-25%] left-[-20%] w-[140%] h-[70%] bg-gradient-to-br from-white/25 via-white/5 to-transparent rotate-[-18deg] blur-[40px]"></div>
+              
+              {/* Precision Sub-pixel Edge Highlight */}
+              <div 
+                className="absolute inset-[0.5px] border-[0.5px] border-white/15 mix-blend-overlay"
+                style={{ borderRadius: `${screenRadius}px` }}
+              ></div>
+              
+              {/* Bottom Ambient Floor Bounce */}
+              <div className="absolute bottom-[-15%] right-[-10%] w-[70%] h-[40%] bg-gradient-to-tl from-white/10 to-transparent rotate-[12deg] blur-[30px]"></div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Surface Brushed Texture Shimmer */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-40 rounded-[inherit] overflow-hidden mix-blend-overlay opacity-10"
+        style={{ 
+          background: 'radial-gradient(circle at 50% 120%, rgba(255,255,255,0.4) 0%, transparent 60%)',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }}
+      ></div>
     </div>
   );
 };
